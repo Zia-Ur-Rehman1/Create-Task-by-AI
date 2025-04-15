@@ -1,0 +1,15 @@
+<%= link_to 'Edit Profile', edit_profile_path %>
+
+<p>Email: <%= @user.email %></p>
+
+<p>Portfolio Url: <%= @user.portfolio_url %></p>
+
+<% if @user.published? %>
+<p>Sharable Url: <%= view_profile_url(@user.uuid) %></p>
+<% end %>
+
+<p>
+  <strong>Status:</strong> <%= @user.published ? 'Public' : 'Private' %>
+</p>
+
+<%= link_to 'Back', root_path %>

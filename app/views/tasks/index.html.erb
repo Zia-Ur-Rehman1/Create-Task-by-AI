@@ -1,0 +1,19 @@
+<h1>Tasks</h1>
+
+<%= link_to 'View Profile', profile_path %>
+
+<%= link_to 'New Task', new_task_path %>
+
+<%= form_tag search_tasks_path, method: :get do %>
+  <%= text_field_tag :query, params[:query] %>
+  <%= submit_tag "Search" %>
+<% end %>
+
+<ul>
+  <% @tasks.each do |task| %>
+    <li>
+      <%= link_to task.title, task_path(task) %> -
+      <%= task.completed ? 'Completed' : link_to('Complete', complete_task_path(task), method: :patch) %>
+    </li>
+  <% end %>
+</ul>

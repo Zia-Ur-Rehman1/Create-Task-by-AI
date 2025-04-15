@@ -1,0 +1,55 @@
+services:
+  redis:
+    image: redis:7.4.0
+    expose:
+      - 6379/tcp
+    networks:
+      - take_home_test
+  mysql:
+    image: mysql:8.4.2
+    environment:
+      - MYSQL_ROOT_PASSWORD=tester123
+    volumes:
+      - mysql_8:/var/lib/mysql
+    expose:
+      - 3306/tcp
+    ports:
+      - 3306:3306
+    networks:
+      - take_home_test
+  mailhog:
+    image: mailhog/mailhog:v1.0.1
+    expose:
+      - 1025/tcp
+      - 8025/tcp
+    ports:
+      - 8025:8025
+    networks:
+      - take_home_test
+  rails:
+    build: .
+    init: true
+    depends_on:
+      - mysql
+      - redis
+    volumes:
+      - ./:/home/code
+    ports:
+      - 3000:3000
+      - 8080:8080
+    networks:
+      - take_home_test
+    environment:
+      - RAILS_ENV=development
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD:-elasticsearch}
+      - ELASTIC_SERVER_URL=${ELASTIC_SERVER_URL:-elasticsearch}
+      - MAILHOG_HOST=mailhog
+      - REDIS_PERSISTENT=redis://redis
+      - REDIS_TEMPORALILY=redis://redis
+networks:
+  take_home_test:
+    driver: bridge
+    name: take_home_test_network
+volumes:
+  mysql_8:
+    driver: local

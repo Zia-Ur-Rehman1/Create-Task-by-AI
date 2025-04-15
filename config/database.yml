@@ -1,0 +1,36 @@
+development: &default
+  adapter: mysql2
+  pool: 5
+  timeout: 5000
+  collation: utf8mb4_unicode_ci
+  encoding: utf8mb4
+  charset: utf8mb4
+  port: 3306
+  username: root
+  password: tester123
+  database: take_home_dev
+  host: mysql
+
+test:
+  <<: *default
+  database: take_home_test
+
+
+# Store production database in the storage/ directory, which by default
+# is mounted as a persistent Docker volume in config/deploy.yml.
+production:
+  primary:
+    <<: *default
+    database: take_home_prod
+  cache:
+    <<: *default
+    database: take_home_dev_cache
+    migrations_paths: db/cache_migrate
+  queue:
+    <<: *default
+    database: take_home_dev_queue
+    migrations_paths: db/queue_migrate
+  cable:
+    <<: *default
+    database: take_home_dev_cable
+    migrations_paths: db/cable_migrate

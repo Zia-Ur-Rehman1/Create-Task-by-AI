@@ -1,0 +1,21 @@
+<h1>Update Personal Info</h1>
+
+<%= form_with(model: @user, url: profile_path, local: true) do |form| %>
+  <div>
+    <%= form.label :portfolio_url %><br>
+    <%= form.text_field :portfolio_url %>
+  </div>
+
+  <br/>
+
+  <div>
+    <%= form.label :published %><br>
+    <%= form.checkbox :published %>
+  </div>
+
+  <br/>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

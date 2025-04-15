@@ -1,0 +1,7 @@
+<h2>This is Home Page</h2>
+
+<% if user_signed_in? %>
+  <%= link_to 'Manage Task', tasks_path %>
+<% else %>
+  <%= link_to 'Signup Now!', new_user_registration_path %>
+<% end %>
